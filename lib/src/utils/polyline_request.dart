@@ -36,7 +36,6 @@ class PolylineRequest {
   /// or [departureTime], but not both. Note that it must be specified as an integer.
   final int? arrivalTime;
 
-
   /// Specifies the desired time of departure. You can specify the time as
   /// an integer in seconds since midnight,
   final int? departureTime;
@@ -87,7 +86,7 @@ class PolylineRequest {
       }
       params.addAll({"waypoints": wayPointsString});
     }
-    return Uri.https("maps.googleapis.com", "maps/api/directions/json", params);
+    return Uri.http("maps.googleapis.com", "maps/api/directions/json", params);
   }
 
   Map<String, dynamic> removeNulls(Map<String, dynamic> map) {
