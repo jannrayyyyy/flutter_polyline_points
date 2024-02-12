@@ -86,7 +86,7 @@ class PolylineRequest {
       }
       params.addAll({"waypoints": wayPointsString});
     }
-    return Uri.http("maps.googleapis.com", "maps/api/directions/json", params);
+    return Uri.https("maps.googleapis.com", "maps/api/directions/json", params);
   }
 
   Map<String, dynamic> removeNulls(Map<String, dynamic> map) {
