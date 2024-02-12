@@ -14,7 +14,11 @@ class NetworkUtil {
       {required PolylineRequest request}) async {
     List<PolylineResult> results = [];
 
-    var response = await http.get(request.toUri());
+    var response = await http.get(request.toUri(), headers: {
+      "Access-Control-Allow-Origin": "*",
+      'Content-Type': 'application/json',
+      'Accept': '*/*'
+    });
     if (response.statusCode == 200) {
       var parsedJson = json.decode(response.body);
       if (parsedJson["status"]?.toLowerCase() == STATUS_OK &&
@@ -23,8 +27,7 @@ class NetworkUtil {
         List<dynamic> routeList = parsedJson["routes"];
         for (var route in routeList) {
           results.add(PolylineResult(
-              points:
-                  PolylineDecoder.run(route["overview_polyline"]["points"]),
+              points: PolylineDecoder.run(route["overview_polyline"]["points"]),
               errorMessage: "",
               status: parsedJson["status"],
               distance: route["legs"][0]["distance"]["text"],
@@ -36,7 +39,8 @@ class NetworkUtil {
               duration: route["legs"][0]["duration"]["text"]));
         }
       } else {
-        throw Exception("Unable to get route: Response ---> ${parsedJson["status"]} ");
+        throw Exception(
+            "Unable to get route: Response ---> ${parsedJson["status"]} ");
       }
     }
     return results;
